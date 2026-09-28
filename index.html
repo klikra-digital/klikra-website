@@ -8,22 +8,33 @@
 
   <style>
     * {
+    
+    * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    :root {
+      --hijau: #0B3D2E;
+      --lime: #A7E22E;
+      --krem: #F9F6EA;
+      --hitam: #1A1A1A;
+      --abu: #6B7280;
+      --putih: #FFFFFF;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #202b3c;
+      background: var(--krem);
+      color: var(--hitam);
       line-height: 1.6;
     }
 
     header {
-      background: #102a43;
-      color: white;
-      padding: 20px;
+      background: var(--hijau);
+      color: var(--krem);
+      padding: 25px 20px;
       text-align: center;
     }
 
@@ -33,31 +44,36 @@
     }
 
     header p {
-      color: #cbd5e1;
+      color: var(--krem);
     }
 
     nav {
-      background: white;
+      background: var(--krem);
       padding: 14px;
       text-align: center;
-      box-shadow: 0 2px 8px #00000010;
+      box-shadow: 0 2px 8px #0B3D2E12;
     }
 
     nav a {
-      color: #102a43;
+      color: var(--hijau);
       text-decoration: none;
       margin: 0 10px;
       font-weight: bold;
     }
 
     .hero {
-      background: linear-gradient(135deg, #102a43, #176b87);
-      color: white;
+      background: linear-gradient(
+        135deg,
+        var(--hijau),
+        #176B4B
+      );
+      color: var(--krem);
       text-align: center;
       padding: 75px 20px;
     }
 
     .hero h2 {
+      color: var(--krem);
       font-size: 34px;
       margin-bottom: 15px;
     }
@@ -65,12 +81,13 @@
     .hero p {
       max-width: 600px;
       margin: 0 auto 25px;
+      color: var(--krem);
     }
 
     .button {
       display: inline-block;
-      background: #f4c95d;
-      color: #102a43;
+      background: var(--lime);
+      color: var(--hijau);
       padding: 12px 25px;
       border-radius: 30px;
       text-decoration: none;
@@ -84,7 +101,7 @@
 
     section h2 {
       margin-bottom: 15px;
-      color: #102a43;
+      color: var(--hijau);
     }
 
     .services {
@@ -97,27 +114,48 @@
     }
 
     .card {
-      background: white;
+      background: var(--putih);
       padding: 25px;
       border-radius: 15px;
-      box-shadow: 0 5px 20px #00000008;
+      border: 1px solid #0B3D2E18;
+      box-shadow: 0 5px 20px #0B3D2E08;
     }
 
     .card h3 {
-      color: #176b87;
+      color: var(--hijau);
       margin-bottom: 10px;
     }
 
+    .card p {
+      color: var(--abu);
+    }
+
     .contact {
-      background: #e7eef5;
+      background: #EDE8D9;
     }
 
     footer {
-      background: #102a43;
-      color: white;
+      background: var(--hijau);
+      color: var(--krem);
       text-align: center;
       padding: 20px;
     }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 60px 20px;
+      }
+
+      .hero h2 {
+        font-size: 28px;
+      }
+
+      nav a {
+        margin: 0 6px;
+        font-size: 14px;
+      }
+    }
+
   </style>
 </head>
 
