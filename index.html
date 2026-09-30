@@ -1185,6 +1185,85 @@
     padding: 23px;
   }
 }
+  /* KLIKRA PREMIUM LEARNING */
+.learning-band {
+  position: relative;
+  overflow: hidden;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(8,61,46,.16);
+  background:
+    radial-gradient(circle at 90% 15%, rgba(167,226,46,.14), transparent 28%),
+    var(--green);
+}
+
+.learning-band::after {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: -80px;
+  bottom: -90px;
+  border-radius: 50%;
+  border: 1px solid rgba(167,226,46,.22);
+  box-shadow:
+    0 0 0 25px rgba(167,226,46,.05),
+    0 0 0 50px rgba(167,226,46,.03);
+  pointer-events: none;
+}
+
+.learning-band > * {
+  position: relative;
+  z-index: 1;
+}
+
+.learning-band h2 {
+  letter-spacing: -.8px;
+}
+
+.learning-band p {
+  max-width: 500px;
+}
+
+.module-grid {
+  gap: 10px;
+}
+
+.module {
+  min-height: 135px;
+  border: 1px solid rgba(8,61,46,.08);
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.module:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 25px rgba(0,0,0,.14);
+}
+
+.module span {
+  transform: scale(1);
+  transition: transform .25s ease;
+}
+
+.module:hover span {
+  transform: scale(1.12);
+}
+
+@media (max-width: 600px) {
+  .learning-band {
+    padding: 26px;
+    border-radius: 20px;
+  }
+
+  .module {
+    min-height: 120px;
+  }
+
+  .module:hover {
+    transform: none;
+  }
+}
   </style>
 </head>
 
