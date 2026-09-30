@@ -1002,6 +1002,67 @@
         gap: 12px;
       }
     }
+    /* KLIKRA PREMIUM HERO */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 18px 45px rgba(8,61,46,.16);
+}
+
+.hero-grid {
+  min-height: 500px;
+  gap: 45px;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 4.5vw, 62px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+}
+
+.hero p {
+  max-width: 560px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.hero-visual {
+  transform: translateY(0);
+  transition: transform .4s ease;
+}
+
+.hero-visual:hover {
+  transform: translateY(-6px);
+}
+
+.laptop {
+  filter: drop-shadow(0 22px 30px rgba(0,0,0,.22));
+}
+
+@media (max-width: 600px) {
+  .hero {
+    border-radius: 0 0 24px 24px;
+  }
+
+  .hero-grid {
+    min-height: auto;
+    gap: 25px;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+    letter-spacing: -1px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .hero-visual:hover {
+    transform: none;
+  }
+}
   </style>
 </head>
 
