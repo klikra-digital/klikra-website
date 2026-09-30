@@ -1062,7 +1062,71 @@
   .hero-visual:hover {
     transform: none;
   }
+/* KLIKRA PREMIUM PORTAL */
+.portal-section {
+  padding-top: 45px;
+  padding-bottom: 25px;
 }
+
+.portal-grid {
+  gap: 24px;
+}
+
+.portal-card {
+  border: 1px solid rgba(8,61,46,.10);
+  box-shadow: 0 14px 35px rgba(8,61,46,.10);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.portal-card::before {
+  content: "";
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 0;
+  height: 4px;
+  background: var(--lime);
+  border-radius: 0 0 8px 8px;
+}
+
+.portal-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(167,226,46,.65);
+  box-shadow: 0 20px 45px rgba(8,61,46,.15);
+}
+
+.portal-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #edf5d9, #dcebc9);
+  box-shadow: 0 8px 18px rgba(8,61,46,.08);
+}
+
+.portal-card h3 {
+  letter-spacing: -.3px;
+}
+
+.portal-card .btn {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.portal-card .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(8,61,46,.12);
+}
+
+@media (max-width: 600px) {
+  .portal-card:hover {
+    transform: none;
+  }
+
+  .portal-card::before {
+    left: 20px;
+    right: 20px;
+  }
+}
+    
   </style>
 </head>
 
