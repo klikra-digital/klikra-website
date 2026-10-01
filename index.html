@@ -1436,7 +1436,72 @@
   .portfolio-card:hover .portfolio-art {
     transform: none;
   }
+  }/* KLIKRA PREMIUM WHY */
+.why-grid {
+  gap: 18px;
+}
+
+.why-item {
+  position: relative;
+  padding: 22px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(8,61,46,.08);
+  box-shadow: 0 8px 22px rgba(8,61,46,.05);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  overflow: hidden;
+}
+
+.why-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--lime);
+  border-radius: 8px 0 0 8px;
+}
+
+.why-item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(167,226,46,.55);
+  box-shadow: 0 16px 32px rgba(8,61,46,.11);
+}
+
+.why-item .why-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #edf5d9;
+  color: var(--green);
+  margin-bottom: 13px;
+  font-size: 18px;
+}
+
+.why-item h3 {
+  color: var(--green);
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.why-item p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+@media (max-width: 600px) {
+  .why-item:hover {
+    transform: none;
   }
+
+  .why-item {
+    padding: 18px 16px;
+  }
+}
   </style>
 </head>
 
