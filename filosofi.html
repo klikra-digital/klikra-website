@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Filosofi KLIKRA — Rumah Tumbuh untuk Perjalanan Belajar</title>
+
+  <meta
+    name="description"
+    content="Filosofi KLIKRA — belajar tanpa batas, bertumbuh tanpa harus seragam, dan menggunakan teknologi untuk memperkuat manusia."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --dark-green: #0B3D2E;
+      --lime: #A7E22E;
+      --cream: #F9F6EA;
+      --black: #1A1A1A;
+      --gray: #687290;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      line-height: 1.8;
+    }
+
+    /* NAVBAR */
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(249, 246, 234, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(11, 61, 46, 0.08);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 18px 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      color: var(--dark-green);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .back-link {
+      color: var(--dark-green);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .back-link:hover {
+      color: #5b8f1a;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 88vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      padding: 80px 24px;
+
+      background:
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(167, 226, 46, 0.18),
+          transparent 30%
+        ),
+        var(--cream);
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 22px;
+      padding: 7px 17px;
+
+      border: 1px solid rgba(11, 61, 46, 0.2);
+      border-radius: 50px;
+
+      color: var(--dark-green);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      color: var(--dark-green);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 30px;
+    }
+
+    .hero h1 span {
+      color: var(--lime);
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: auto;
+
+      color: var(--gray);
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+    }
+
+    /* GENERAL */
+
+    section {
+      padding: 100px 24px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: auto;
+    }
+
+    .section-label {
+      color: var(--dark-green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      max-width: 800px;
+      color: var(--dark-green);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.2;
+      margin-bottom: 25px;
+    }
+
+    .section-text {
+      max-width: 800px;
+      color: var(--gray);
+      font-size: 1.05rem;
+    }
+
+    /* INTRO */
+
+    .intro {
+      background: var(--dark-green);
+      color: var(--white);
+    }
+
+    .intro .section-label {
+      color: var(--lime);
+    }
+
+    .intro .section-title {
+      color: var(--white);
+    }
+
+    .intro .section-text {
+      color: rgba(255,255,255,0.78);
+    }
+
+    /* PRINCIPLES */
+
+    .principles {
+      background: var(--cream);
+    }
+
+    .principle-grid {
+      margin-top: 50px;
+
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .principle-card {
+      padding: 35px;
+
+      background: var(--white);
+      border-radius: 24px;
+
+      border: 1px solid rgba(11, 61, 46, 0.08);
+
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .principle-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 40px rgba(11, 61, 46, 0.08);
+    }
+
+    .icon {
+      font-size: 2rem;
+      margin-bottom: 18px;
+    }
+
+    .principle-card h3 {
+      color: var(--dark-green);
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+
+    .principle-card p {
+      color: var(--gray);
+      font-size: 0.95rem;
+    }
+
+    /* TECHNOLOGY */
+
+    .technology {
+      background: #eef2e3;
+    }
+
+    .quote {
+      margin-top: 45px;
+      padding: 40px;
+
+      border-left: 5px solid var(--lime);
+
+      background: rgba(255,255,255,0.55);
+      border-radius: 0 20px 20px 0;
+    }
+
+    .quote p {
+      color: var(--dark-green);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    /* COMPASS */
+
+    .compass {
+      background: var(--dark-green);
+      text-align: center;
+    }
+
+    .compass .section-label {
+      color: var(--lime);
+    }
+
+    .compass .section-title {
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--white);
+    }
+
+    .compass-question {
+      margin: 50px auto 25px;
+
+      max-width: 900px;
+
+      color: var(--lime);
+      font-size: clamp(2rem, 6vw, 4.8rem);
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    .compass-description {
+      max-width: 650px;
+      margin: auto;
+
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ECOSYSTEM */
+
+    .ecosystem {
+      background: var(--cream);
+    }
+
+    .ecosystem-box {
+      margin-top: 50px;
+      padding: 50px;
+
+      background: var(--white);
+      border-radius: 30px;
+
+      border: 1px solid rgba(11,61,46,0.08);
+    }
+
+    .ecosystem-title {
+      color: var(--dark-green);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin-bottom: 8px;
+    }
+
+    .ecosystem-subtitle {
+      color: var(--gray);
+      margin-bottom: 35px;
+    }
+
+    .ecosystem-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .ecosystem-item {
+      padding: 10px 18px;
+
+      background: var(--cream);
+      border-radius: 50px;
+
+      color: var(--dark-green);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* FINAL */
+
+    .final {
+      min-height: 70vh;
+
+      display: flex;
+      align-items: center;
+
+      background:
+        radial-gradient(
+          circle at 50% 20%,
+          rgba(167,226,46,0.14),
+          transparent 35%
+        ),
+        var(--cream);
+    }
+
+    .final-content {
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .final h2 {
+      color: var(--dark-green);
+      font-size: clamp(2.3rem, 6vw, 4.5rem);
+      line-height: 1.15;
+      margin-bottom: 30px;
+    }
+
+    .final p {
+      color: var(--gray);
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .final-brand {
+      margin-top: 50px;
+
+      color: var(--dark-green);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+    }
+
+    .final-tagline {
+      color: var(--gray);
+      font-size: 0.95rem;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 30px 24px;
+
+      background: var(--dark-green);
+      color: rgba(255,255,255,0.65);
+
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    footer strong {
+      color: var(--lime);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
+
+      .nav-container {
+        padding: 15px 18px;
+      }
+
+      .hero {
+        min-height: 78vh;
+        padding: 70px 20px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      section {
+        padding: 75px 20px;
+      }
+
+      .principle-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principle-card {
+        padding: 28px;
+      }
+
+      .quote {
+        padding: 28px;
+      }
+
+      .ecosystem-box {
+        padding: 30px;
+      }
+
+      .back-link {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">KLIKRA</a>
+
+      <a href="index.html" class="back-link">
+        ← Kembali ke Beranda
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+
+  <header class="hero">
+
+    <div class="hero-content">
+
+      <div class="eyebrow">
+        Filosofi KLIKRA
+      </div>
+
+      <h1>
+        Belajar.<br>
+        <span>Bertumbuh.</span>
+      </h1>
+
+      <p>
+        KLIKRA percaya bahwa belajar bukanlah perjalanan menuju
+        sebuah titik akhir. Belajar adalah perjalanan manusia
+        untuk terus bertumbuh.
+      </p>
+
+    </div>
+
+  </header>
+
+
+  <!-- INTRO -->
+
+  <section class="intro">
+
+    <div class="container">
+
+      <div class="section-label">
+        01 — Mengapa KLIKRA Ada
+      </div>
+
+      <h2 class="section-title">
+        Belajar bukan sekadar mengetahui.
+      </h2>
+
+      <p class="section-text">
+        Manusia tidak pernah benar-benar selesai belajar.
+        Karena itu, belajar bukan hanya tentang mendapatkan nilai,
+        gelar, atau sertifikat.
+        <br><br>
+        Belajar adalah tentang menjadi.
+        Menjadi lebih mampu memahami, berpikir, berkarya,
+        menghadapi perubahan, dan terus berkembang.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- PRINCIPLES -->
+
+  <section class="principles">
+
+    <div class="container">
+
+      <div class="section-label">
+        02 — Prinsip
+      </div>
+
+      <h2 class="section-title">
+        Empat cara KLIKRA memandang perjalanan belajar.
+      </h2>
+
+      <div class="principle-grid">
+
+        <article class="principle-card">
+
+          <div class="icon">🌱</div>
+
+          <h3>Belajar Tanpa Batas</h3>
+
+          <p>
+            Belajar tidak dibatasi oleh ruang, usia, gelar,
+            maupun latar belakang. Setiap manusia memiliki
+            ruang untuk terus berkembang.
+          </p>
+
+        </article>
+
+
+        <article class="principle-card">
+
+          <div class="icon">🌿</div>
+
+          <h3>Bertumbuh Tanpa Harus Seragam</h3>
+
+          <p>
+            Setiap manusia memiliki perjalanan yang berbeda.
+            Pendidikan bukan tentang membuat semua orang menjadi
+            sama, tetapi membantu setiap orang mengembangkan
+            potensinya.
+          </p>
+
+        </article>
+
+
+        <article class="principle-card">
+
+          <div class="icon">💡</div>
+
+          <h3>Teknologi Membantu Manusia</h3>
+
+          <p>
+            Teknologi adalah alat untuk memperluas kemampuan
+            manusia, bukan tujuan akhir dari perjalanan belajar.
+          </p>
+
+        </article>
+
+
+        <article class="principle-card">
+
+          <div class="icon">🤖</div>
+
+          <h3>AI Memperluas, Bukan Menggantikan</h3>
+
+          <p>
+            AI dapat membantu manusia mencari, memahami,
+            menciptakan, dan bekerja. Namun kemampuan untuk
+            berpikir, merasakan, memilih, dan bertanggung jawab
+            tetap berada pada manusia.
+          </p>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TECHNOLOGY -->
+
+  <section class="technology">
+
+    <div class="container">
+
+      <div class="section-label">
+        03 — Teknologi & Manusia
+      </div>
+
+      <h2 class="section-title">
+        Semakin cerdas teknologi,
+        semakin penting manusia memahami dirinya.
+      </h2>
+
+      <p class="section-text">
+        KLIKRA menggunakan teknologi untuk memperkuat manusia.
+        Bukan untuk menghilangkan kemanusiaan dari proses belajar.
+      </p>
+
+      <div class="quote">
+
+        <p>
+          “Teknologi untuk memperluas kemampuan manusia,
+          bukan menggantikan kemanusiaan.”
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- COMPASS -->
+
+  <section class="compass">
+
+    <div class="container">
+
+      <div class="section-label">
+        04 — Kompas KLIKRA
+      </div>
+
+      <h2 class="section-title">
+        Filosofi bukan sekadar tulisan.
+      </h2>
+
+      <div class="compass-question">
+        “Apakah ini membantu manusia bertumbuh?”
+      </div>
+
+      <p class="compass-description">
+        Pertanyaan ini menjadi kompas KLIKRA ketika menemukan
+        teknologi, fitur, metode, maupun peluang baru.
+        Tidak semua sesuatu yang canggih harus digunakan.
+        Yang terpenting adalah manfaatnya bagi manusia.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ECOSYSTEM -->
+
+  <section class="ecosystem">
+
+    <div class="container">
+
+      <div class="section-label">
+        05 — KLIKRA Learning Ecosystem
+      </div>
+
+      <h2 class="section-title">
+        Rumah Tumbuh untuk Perjalanan Belajar.
+      </h2>
+
+      <p class="section-text">
+        KLIKRA Learning Ecosystem bukan sekadar tempat
+        mengakses materi. Ia adalah ruang untuk menemukan,
+        bertanya, mencoba, membuat kesalahan, memperbaiki diri,
+        berkarya, dan melanjutkan perjalanan.
+      </p>
+
+
+      <div class="ecosystem-box">
+
+        <h3 class="ecosystem-title">
+          KLIKRA Learning Ecosystem
+        </h3>
+
+        <p class="ecosystem-subtitle">
+          Rumah Tumbuh untuk Perjalanan Belajar
+        </p>
+
+        <div class="ecosystem-items">
+
+          <span class="ecosystem-item">
+            KLIKRA Learning
+          </span>
+
+          <span class="ecosystem-item">
+            KLIKRA Insani
+          </span>
+
+          <span class="ecosystem-item">
+            KLIKRA Digital
+          </span>
+
+          <span class="ecosystem-item">
+            AI Tutor
+          </span>
+
+          <span class="ecosystem-item">
+            Perjalanan Belajar
+          </span>
+
+          <span class="ecosystem-item">
+            Produk Digital
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FINAL -->
+
+  <section class="final">
+
+    <div class="final-content">
+
+      <h2>
+        Karena perjalanan belajar
+        setiap manusia berbeda.
+      </h2>
+
+      <p>
+        Teknologi akan terus berkembang.
+        Platform akan berubah.
+        AI akan semakin cerdas.
+        <br><br>
+        Tetapi satu hal harus tetap menjadi pusatnya:
+        <strong>manusia.</strong>
+        <br><br>
+        Selama manusia masih ingin belajar dan bertumbuh,
+        perjalanan itu belum selesai.
+      </p>
+
+      <div class="final-brand">
+        KLIKRA
+      </div>
+
+      <div class="final-tagline">
+        Menemani manusia untuk terus belajar dan bertumbuh. 🌱
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+    <strong>KLIKRA</strong> — Learning Ecosystem
+    <br>
+    Rumah Tumbuh untuk Perjalanan Belajar
+  </footer>
+
+</body>
+</html>
