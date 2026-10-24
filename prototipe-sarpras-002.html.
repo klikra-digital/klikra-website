@@ -1,0 +1,237 @@
+
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KLIKRA SARPRAS SMART SCAN 002</title>
+<style>
+:root{--g:#0b3d2e;--l:#a7e22e;--bg:#f3f5ee;--ink:#1a1a1a;--muted:#687290;--line:#d9ddd5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px Arial,sans-serif}
+header{background:var(--g);color:white;padding:24px 18px}
+header small{color:#dce9d9}
+header h1{font-size:27px;margin:10px 0}
+main{max-width:780px;margin:auto;padding:15px}
+.card{background:white;border-radius:15px;padding:17px;margin:13px 0;border:1px solid #e1e5dc}
+h2{font-size:21px;margin:0 0 14px}
+label{display:block;font-weight:bold;margin:12px 0 5px}
+input,select{display:block;width:100%;padding:12px;border:1px solid #b9c0b8;border-radius:9px;font-size:16px;background:white}
+button{border:0;border-radius:9px;background:var(--g);color:white;padding:11px 13px;font-size:15px;cursor:pointer}
+button.secondary{background:white;color:var(--g);border:1px solid #b9c0b8}
+button.danger{background:#9b3025}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.nav button{background:white;color:var(--g);border:1px solid #cbd0c8;padding:10px 3px;font-size:13px}
+.nav button.active{background:var(--g);color:white}
+.muted{color:var(--muted);font-size:13px}
+.item{border-bottom:1px solid var(--line);padding:13px 0;overflow-wrap:anywhere}
+.item:last-child{border-bottom:0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
+.pill{display:inline-block;background:#edf4e6;color:var(--g);padding:4px 8px;border-radius:20px;font-size:12px}
+.hidden{display:none!important}
+.notice{background:#fff8df;border:1px solid #eadb9b;padding:12px;border-radius:10px;font-size:13px}
+.qrwrap{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin-top:10px}
+.qrbox{border:1px solid var(--line);padding:10px;border-radius:10px;min-width:150px;text-align:center}
+.qrbox img,.qrbox canvas{max-width:150px;height:auto}
+@media print{header,.nav,.noprint,form,.notice{display:none!important}body{background:white}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<header>
+<small>KLIKRA DIGITAL · NI SCHOOL</small>
+<h1>SARPRAS SMART SCAN</h1>
+Inventaris · Peminjaman · Pengembalian
+</header>
+<main>
+<div class="card">
+<b>PROTOTIPE 002 — QR ASET</b>
+<p class="muted">Gunakan data dummy. Data disimpan di browser ini, belum tersinkron dengan server sekolah. QR merupakan identitas aset, bukan persetujuan transaksi.</p>
+</div>
+<nav class="nav noprint">
+<button class="active" data-page="home">Ringkasan</button>
+<button data-page="barang">Barang & QR</button>
+<button data-page="pinjam">Peminjaman</button>
+<button data-page="kembali">Pengembalian</button>
+</nav>
+
+<section id="home" class="card">
+<h2>Ringkasan</h2>
+<p>Jenis barang: <b id="total">0</b></p>
+<p>Peminjaman aktif: <b id="aktif">0</b></p>
+<button data-go="barang">+ Tambah barang</button>
+</section>
+
+<section id="barang" class="card hidden">
+<h2>Tambah barang</h2>
+<form id="formBarang">
+<label for="kode">Kode unik barang</label>
+<input id="kode" required maxlength="40" placeholder="LAB-001">
+<label for="nama">Nama barang</label>
+<input id="nama" required maxlength="100" placeholder="Laptop Uji">
+<label for="jumlah">Jumlah unit</label>
+<input id="jumlah" type="number" min="1" max="10000" value="1" required>
+<button style="margin-top:14px">Simpan barang</button>
+</form>
+<h2 style="margin-top:25px">Daftar barang dan QR</h2>
+<div id="daftarBarang"></div>
+</section>
+
+<section id="pinjam" class="card hidden">
+<h2>Catat peminjaman</h2>
+<form id="formPinjam">
+<label for="peminjam">Nama peminjam</label>
+<input id="peminjam" required maxlength="100">
+<label for="pilihan">Barang</label>
+<select id="pilihan" required><option value="">Pilih barang</option></select>
+<label for="banyak">Jumlah unit</label>
+<input id="banyak" type="number" min="1" value="1" required>
+<label for="tempo">Tanggal kembali</label>
+<input id="tempo" type="date" required>
+<button style="margin-top:14px">Catat peminjaman</button>
+</form>
+<h2 style="margin-top:25px">Peminjaman aktif</h2>
+<div id="daftarPinjam"></div>
+</section>
+
+<section id="kembali" class="card hidden">
+<h2>Pengembalian</h2>
+<div id="daftarKembali"></div>
+</section>
+
+<div class="notice">Peringatan: data browser bisa hilang jika data situs dibersihkan. Belum ada login, sinkronisasi perangkat, database bersama, atau kontrol akses petugas.</div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+let barang=[],pinjaman=[];
+try{
+ barang=JSON.parse(localStorage.getItem("ks002_barang")||"[]");
+ pinjaman=JSON.parse(localStorage.getItem("ks002_pinjam")||"[]");
+ if(!Array.isArray(barang)||!Array.isArray(pinjaman))throw Error("Data tidak valid");
+}catch(e){barang=[];pinjaman=[];}
+
+function save(){
+ try{
+  localStorage.setItem("ks002_barang",JSON.stringify(barang));
+  localStorage.setItem("ks002_pinjam",JSON.stringify(pinjaman));
+  return true;
+ }catch(e){
+  alert("Penyimpanan gagal. Jangan gunakan data penting.");
+  return false;
+ }
+}
+function safe(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function stok(b){
+ return b.jumlah-pinjaman.filter(p=>p.kode===b.kode&&p.aktif).reduce((n,p)=>n+p.banyak,0);
+}
+function page(id){
+ document.querySelectorAll("main section").forEach(s=>s.classList.toggle("hidden",s.id!==id));
+ document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ render();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>page(b.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>page(b.dataset.go)));
+
+function render(){
+ $("total").textContent=barang.length;
+ $("aktif").textContent=pinjaman.filter(p=>p.aktif).length;
+
+ $("daftarBarang").innerHTML=barang.map(b=>`
+ <div class="item">
+ <b>${safe(b.nama)}</b>
+ <p class="muted">${safe(b.kode)} · Tersedia ${stok(b)} dari ${b.jumlah}</p>
+ <div class="qrwrap">
+ <div class="qrbox"><div id="qr-${encodeURIComponent(b.kode)}"></div><small>${safe(b.kode)}</small></div>
+ <div><button class="secondary noprint" onclick="cetakQR('${encodeURIComponent(b.kode)}')">Cetak QR</button>
+ <button class="danger noprint" onclick="hapus('${encodeURIComponent(b.kode)}')">Hapus</button>
+ <p class="muted">QR berisi kode dan nama aset.</p></div>
+ </div></div>`).join("")||'<p class="muted">Belum ada barang.</p>';
+
+ barang.forEach(b=>{
+  const el=$("qr-"+encodeURIComponent(b.kode));
+  if(!el)return;
+  el.innerHTML="";
+  if(window.QRCode){
+   new QRCode(el,{text:JSON.stringify({app:"KLIKRA-SARPRAS",kode:b.kode,nama:b.nama}),width:140,height:140});
+  }else{
+   el.textContent="QR belum tersedia. Periksa koneksi internet.";
+  }
+ });
+
+ $("pilihan").innerHTML='<option value="">Pilih barang</option>'+barang.filter(b=>stok(b)>0).map(b=>`<option value="${safe(b.kode)}">${safe(b.kode)} — ${safe(b.nama)} (tersedia ${stok(b)})</option>`).join("");
+
+ const active=pinjaman.filter(p=>p.aktif);
+ $("daftarPinjam").innerHTML=active.map(p=>`
+ <div class="item"><b>${safe(p.peminjam)}</b> · ${safe(p.nama)} (${p.banyak} unit)
+ <p class="muted">Kode ${safe(p.kode)} · Batas: ${safe(p.tempo)}</p>
+ <button onclick="kembalikan('${p.id}')">Konfirmasi kembali</button></div>`).join("")||'<p class="muted">Tidak ada peminjaman aktif.</p>';
+
+ $("daftarKembali").innerHTML=active.map(p=>`
+ <div class="item"><b>${safe(p.nama)}</b>
+ <p>${safe(p.peminjam)} · ${p.banyak} unit</p>
+ <button onclick="kembalikan('${p.id}')">Kembalikan</button></div>`).join("")||'<p class="muted">Tidak ada barang yang perlu dikembalikan.</p>';
+}
+
+$("formBarang").addEventListener("submit",e=>{
+ e.preventDefault();
+ const kode=$("kode").value.trim().toUpperCase();
+ const nama=$("nama").value.trim();
+ const jumlah=Number($("jumlah").value);
+ if(!kode||!nama||!Number.isInteger(jumlah)||jumlah<1)return alert("Periksa data barang.");
+ if(barang.some(b=>b.kode===kode))return alert("Kode barang sudah ada. Gunakan kode unik.");
+ barang.push({kode,nama,jumlah});
+ if(save()){
+  e.target.reset();$("jumlah").value=1;render();
+  alert("Barang berhasil disimpan.");
+ }
+});
+
+$("formPinjam").addEventListener("submit",e=>{
+ e.preventDefault();
+ const kode=$("pilihan").value;
+ const b=barang.find(x=>x.kode===kode);
+ const banyak=Number($("banyak").value);
+ const peminjam=$("peminjam").value.trim();
+ const tempo=$("tempo").value;
+ if(!b||!peminjam||!tempo||!Number.isInteger(banyak)||banyak<1)return alert("Periksa data peminjaman.");
+ if(banyak>stok(b))return alert("Stok tidak mencukupi.");
+ pinjaman.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),kode,nama:b.nama,banyak,peminjam,tempo,aktif:true,tanggal:new Date().toISOString()});
+ if(save()){
+  e.target.reset();$("banyak").value=1;render();
+  alert("Peminjaman tercatat.");
+ }
+});
+
+function kembalikan(id){
+ const p=pinjaman.find(x=>x.id===id);
+ if(!p||!p.aktif)return alert("Transaksi sudah dikembalikan atau tidak ditemukan.");
+ if(!confirm("Konfirmasi barang telah dikembalikan?"))return;
+ p.aktif=false;p.tanggalKembali=new Date().toISOString();
+ if(save()){render();alert("Pengembalian berhasil dicatat.");}
+}
+function hapus(k){
+ const kode=decodeURIComponent(k);
+ if(pinjaman.some(p=>p.kode===kode&&p.aktif))return alert("Barang masih dipinjam. Penghapusan ditolak.");
+ if(confirm("Hapus aset "+kode+"?")){
+  barang=barang.filter(b=>b.kode!==kode);
+  if(save())render();
+ }
+}
+function cetakQR(k){
+ const kode=decodeURIComponent(k),b=barang.find(x=>x.kode===kode);
+ if(!b)return;
+ const w=window.open("","_blank","width=400,height=500");
+ if(!w)return alert("Izinkan pop-up untuk mencetak QR.");
+ w.document.write('<!doctype html><html><head><title>QR aset</title><style>body{font-family:Arial;text-align:center;padding:24px}</style></head><body><h2>KLIKRA SARPRAS</h2><h3>'+safe(b.nama)+'</h3><p>'+safe(b.kode)+'</p><div id="q"></div><p>Identitas aset</p><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script><script>new QRCode(document.getElementById("q"),{text:'+JSON.stringify(JSON.stringify({app:"KLIKRA-SARPRAS",kode:b.kode,nama:b.nama}))+',width:200,height:200});setTimeout(()=>window.print(),700)<\/script></body></html>');
+ w.document.close();
+}
+render();
+</script>
+</body>
+</html>
