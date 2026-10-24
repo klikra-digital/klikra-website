@@ -1,237 +1,214 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#2457A6">
 <title>KLIKRA SARPRAS ADMIN 002</title>
 <style>
-:root{--g:#0b3d2e;--l:#a7e22e;--bg:#f3f5ee;--ink:#1a1a1a;--muted:#687290;--line:#d9ddd5}
+:root{--blue:#2457A6;--dark:#183D78;--bg:#F3F6FB;--ink:#202B3C;--muted:#718096;--line:#E1E7F0;--green:#18865A;--red:#C83F4D}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg;color:var(--ink);font:16px Arial,sans-serif}
-header{background:#2457A6;color:white;padding:24px 18px}
-header small{color:#dce9d9}
-header h1{font-size:27px;margin:10px 0}
-main{max-width:780px;margin:auto;padding:15px}
-.card{background:white;border-radius:15px;padding:17px;margin:13px 0;border:1px solid #e1e5dc}
-h2{font-size:21px;margin:0 0 14px}
-label{display:block;font-weight:bold;margin:12px 0 5px}
-input,select{display:block;width:100%;padding:12px;border:1px solid #b9c0b8;border-radius:9px;font-size:16px;background:white}
-button{border:0;border-radius:9px;background:var(--g);color:white;padding:11px 13px;font-size:15px;cursor:pointer}
-button.secondary{background:white;color:var(--g);border:1px solid #b9c0b8}
-button.danger{background:#9b3025}
-.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.nav button{background:white;color:var(--g);border:1px solid #cbd0c8;padding:10px 3px;font-size:13px}
-.nav button.active{background:var(--g);color:white}
-.muted{color:var(--muted);font-size:13px}
-.item{border-bottom:1px solid var(--line);padding:13px 0;overflow-wrap:anywhere}
-.item:last-child{border-bottom:0}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.row>*{flex:1}
-.pill{display:inline-block;background:#edf4e6;color:var(--g);padding:4px 8px;border-radius:20px;font-size:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px Arial,sans-serif}
+header{background:linear-gradient(120deg,var(--dark),var(--blue));color:white;padding:22px 17px}
+header h1{font-size:22px;margin:8px 0}
+header p{margin:0;color:#E0EAFE}
+main{max-width:950px;margin:auto;padding:15px}
+nav,.actions{display:flex;gap:7px;flex-wrap:wrap}
+nav{overflow-x:auto;padding-bottom:14px}
+button{cursor:pointer;font:inherit;border-radius:9px;padding:10px 12px;border:1px solid var(--line);background:white;color:var(--ink)}
+button.primary,nav button.active{background:var(--blue);color:white;border-color:var(--blue)}
+button.danger{color:var(--red)}
+button:focus,input:focus,select:focus{outline:2px solid #91B5F0;outline-offset:2px}
+.panel,.metric{background:white;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;min-width:0}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.metric small{color:var(--muted)}
+.metric strong{display:block;font-size:26px;margin-top:10px}
+h2{font-size:21px;margin:5px 0 8px}
+h3{font-size:16px;margin:0 0 14px}
+.muted{color:var(--muted);line-height:1.6}
+.field{margin-bottom:12px}
+label{display:block;font-weight:bold;font-size:12px;margin-bottom:6px}
+input,select{width:100%;padding:11px;border:1px solid #CFD8E6;border-radius:9px;background:white;color:var(--ink)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.full{grid-column:1/-1}
+.tablewrap{overflow-x:auto}
+table{width:100%;min-width:540px;border-collapse:collapse}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;color:var(--muted)}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;background:#EAF1FC;color:var(--blue);font-size:11px}
+.badge.green{background:#E6F5ED;color:var(--green)}
+.badge.red{background:#FCE9EA;color:var(--red)}
+.notice{padding:12px;background:#EAF1FC;border-radius:10px;line-height:1.6;font-size:12px}
+.empty{padding:20px;text-align:center;color:var(--muted)}
 .hidden{display:none!important}
-.notice{background:#fff8df;border:1px solid #eadb9b;padding:12px;border-radius:10px;font-size:13px}
-.qrwrap{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin-top:10px}
-.qrbox{border:1px solid var(--line);padding:10px;border-radius:10px;min-width:150px;text-align:center}
-.qrbox img,.qrbox canvas{max-width:150px;height:auto}
-@media print{header,.nav,.noprint,form,.notice{display:none!important}body{background:white}.card{box-shadow:none}}
+#toast{position:fixed;bottom:15px;left:5%;width:90%;padding:13px;background:#202B3C;color:white;border-radius:10px;z-index:5}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:620px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}main{padding:11px}.panel,.metric{padding:12px}}
+@media print{body *{visibility:hidden}#printarea,#printarea *{visibility:visible}#printarea{position:absolute;left:0;top:0;width:100%;text-align:center}}
 </style>
 </head>
 <body>
 <header>
-<small>KLIKRA DIGITAL · NI SCHOOL</small>
-<h1>SARPRAS ADMIN</h1>
-Inventaris · Peminjaman · Pengembalian
+  <div style="max-width:950px;margin:auto">
+    <div style="font-size:27px">▤</div>
+    <div style="font-size:11px">KLIKRA DIGITAL · NI SCHOOL</div>
+    <h1>SARPRAS ADMIN</h1>
+    <p>Administrasi Sarana dan Prasarana · Prototipe 002</p>
+  </div>
 </header>
 <main>
-<div class="card">
-<b>PROTOTIPE 002 — QR ASET</b>
-<p class="muted">Gunakan data dummy. Data disimpan di browser ini, belum tersinkron dengan server sekolah. QR merupakan identitas aset, bukan persetujuan transaksi.</p>
-</div>
-<nav class="nav noprint">
-<button class="active" data-page="home">Ringkasan</button>
-<button data-page="barang">Barang & QR</button>
+<nav id="nav">
+<button class="active" data-page="dashboard">Ringkasan</button>
+<button data-page="barang">Inventaris & QR</button>
 <button data-page="pinjam">Peminjaman</button>
 <button data-page="kembali">Pengembalian</button>
 </nav>
 
-<section id="home" class="card">
+<section id="dashboard">
 <h2>Ringkasan</h2>
-<p>Jenis barang: <b id="total">0</b></p>
-<p>Peminjaman aktif: <b id="aktif">0</b></p>
-<button data-go="barang">+ Tambah barang</button>
+<p class="muted">Pantau inventaris dan transaksi sarana sekolah.</p>
+<div class="grid">
+<div class="metric"><small>Jenis barang</small><strong id="mjenis">0</strong></div>
+<div class="metric"><small>Stok tersedia</small><strong id="mstok">0</strong></div>
+<div class="metric"><small>Unit dipinjam</small><strong id="mpinjam">0</strong></div>
+<div class="metric"><small>Transaksi aktif</small><strong id="maktif">0</strong></div>
+</div>
+<div class="panel"><h3>Peminjaman aktif</h3><div id="dashlist"></div></div>
 </section>
 
-<section id="barang" class="card hidden">
-<h2>Tambah barang</h2>
-<form id="formBarang">
-<label for="kode">Kode unik barang</label>
-<input id="kode" required maxlength="40" placeholder="LAB-001">
-<label for="nama">Nama barang</label>
-<input id="nama" required maxlength="100" placeholder="Laptop Uji">
-<label for="jumlah">Jumlah unit</label>
-<input id="jumlah" type="number" min="1" max="10000" value="1" required>
-<button style="margin-top:14px">Simpan barang</button>
+<section id="barang" class="hidden">
+<h2>Inventaris barang</h2>
+<p class="muted">Tambah aset, ubah data, dan buat QR identitas barang.</p>
+<div class="panel">
+<h3 id="formtitle">Tambah barang</h3>
+<form id="itemform">
+<input id="editid" type="hidden">
+<div class="formgrid">
+<div class="field"><label for="kode">Kode barang *</label><input id="kode" required maxlength="40" placeholder="LAB-001"></div>
+<div class="field"><label for="nama">Nama barang *</label><input id="nama" required maxlength="100" placeholder="Laptop"></div>
+<div class="field"><label for="kategori">Kategori</label><input id="kategori" maxlength="60" placeholder="Elektronik"></div>
+<div class="field"><label for="lokasi">Lokasi</label><input id="lokasi" maxlength="100" placeholder="Lab komputer"></div>
+<div class="field full"><label for="jumlah">Jumlah unit *</label><input id="jumlah" type="number" min="0" max="100000" step="1" value="1" required></div>
+</div>
+<div class="actions"><button class="primary" id="saveitem">Simpan barang</button><button type="button" id="cancelEdit" class="hidden">Batal edit</button></div>
 </form>
-<h2 style="margin-top:25px">Daftar barang dan QR</h2>
-<div id="daftarBarang"></div>
+</div>
+<div class="panel"><h3>Daftar barang</h3><input id="cari" placeholder="Cari kode, nama, atau lokasi"><div id="itemlist" style="margin-top:12px"></div></div>
 </section>
 
-<section id="pinjam" class="card hidden">
-<h2>Catat peminjaman</h2>
-<form id="formPinjam">
-<label for="peminjam">Nama peminjam</label>
-<input id="peminjam" required maxlength="100">
-<label for="pilihan">Barang</label>
-<select id="pilihan" required><option value="">Pilih barang</option></select>
-<label for="banyak">Jumlah unit</label>
-<input id="banyak" type="number" min="1" value="1" required>
-<label for="tempo">Tanggal kembali</label>
-<input id="tempo" type="date" required>
-<button style="margin-top:14px">Catat peminjaman</button>
+<section id="pinjam" class="hidden">
+<h2>Peminjaman barang</h2>
+<div class="panel">
+<form id="loanform">
+<div class="field"><label for="pilih">Barang *</label><select id="pilih" required></select></div>
+<div class="field"><label for="peminjam">Nama peminjam *</label><input id="peminjam" required maxlength="100"></div>
+<div class="formgrid">
+<div class="field"><label for="banyak">Jumlah unit *</label><input id="banyak" type="number" min="1" step="1" value="1" required></div>
+<div class="field"><label for="tglpinjam">Tanggal pinjam *</label><input id="tglpinjam" type="date" required></div>
+<div class="field"><label for="tglkembali">Rencana kembali *</label><input id="tglkembali" type="date" required></div>
+</div>
+<div class="field"><label for="catatan">Catatan</label><input id="catatan" maxlength="200"></div>
+<button class="primary">Simpan peminjaman</button>
 </form>
-<h2 style="margin-top:25px">Peminjaman aktif</h2>
-<div id="daftarPinjam"></div>
+</div>
+<div class="panel"><h3>Peminjaman aktif</h3><div id="loanlist"></div></div>
 </section>
 
-<section id="kembali" class="card hidden">
+<section id="kembali" class="hidden">
 <h2>Pengembalian</h2>
-<div id="daftarKembali"></div>
+<div class="panel"><h3>Menunggu pengembalian</h3><div id="returnlist"></div></div>
+<div class="panel"><h3>Riwayat pengembalian</h3><div id="historylist"></div></div>
 </section>
 
-<div class="notice">Peringatan: data browser bisa hilang jika data situs dibersihkan. Belum ada login, sinkronisasi perangkat, database bersama, atau kontrol akses petugas.</div>
+<div class="panel notice" style="margin-top:16px">
+<strong>Catatan prototipe:</strong> data disimpan di browser/perangkat ini. Belum ada login petugas, database server, sinkronisasi antarperangkat, atau pencadangan otomatis. QR adalah identitas aset, bukan persetujuan transaksi.
+</div>
+<div id="printarea" class="hidden"></div>
 </main>
+<footer>KLIKRA SARPRAS ADMIN 002</footer>
+<div id="toast" class="hidden" role="status" aria-live="polite"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 "use strict";
+(()=>{
+const K="klikra_admin002_items",L="klikra_admin002_loans",H="klikra_admin002_history";
 const $=id=>document.getElementById(id);
-let barang=[],pinjaman=[];
-try{
- barang=JSON.parse(localStorage.getItem("ks002_barang")||"[]");
- pinjaman=JSON.parse(localStorage.getItem("ks002_pinjam")||"[]");
- if(!Array.isArray(barang)||!Array.isArray(pinjaman))throw Error("Data tidak valid");
-}catch(e){barang=[];pinjaman=[];}
-
-function save(){
- try{
-  localStorage.setItem("ks002_barang",JSON.stringify(barang));
-  localStorage.setItem("ks002_pinjam",JSON.stringify(pinjaman));
-  return true;
- }catch(e){
-  alert("Penyimpanan gagal. Jangan gunakan data penting.");
-  return false;
- }
-}
-function safe(s){
- return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function stok(b){
- return b.jumlah-pinjaman.filter(p=>p.kode===b.kode&&p.aktif).reduce((n,p)=>n+p.banyak,0);
-}
-function page(id){
- document.querySelectorAll("main section").forEach(s=>s.classList.toggle("hidden",s.id!==id));
- document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
- render();
- window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>page(b.dataset.page)));
-document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>page(b.dataset.go)));
-
+let items=[],loans=[],history=[];
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const today=()=>{let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const date=v=>v?esc(v.split("-").reverse().join("/")):"—";
+const item=id=>items.find(x=>x.id===id);
+const active=id=>loans.filter(x=>x.itemId===id&&x.status==="aktif").reduce((n,x)=>n+x.qty,0);
+const available=x=>Math.max(0,x.qty-active(x.id));
+function msg(s){$("toast").textContent=s;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),2400)}
+function save(){try{localStorage.setItem(K,JSON.stringify(items));localStorage.setItem(L,JSON.stringify(loans));localStorage.setItem(H,JSON.stringify(history));return true}catch(e){msg("Gagal menyimpan data di browser.");return false}}
+function load(){try{items=JSON.parse(localStorage.getItem(K)||"[]");loans=JSON.parse(localStorage.getItem(L)||"[]");history=JSON.parse(localStorage.getItem(H)||"[]");if(!Array.isArray(items)||!Array.isArray(loans)||!Array.isArray(history))throw Error()}catch(e){items=[];loans=[];history=[];msg("Data lokal tidak terbaca.")}}
+function table(head,rows){return rows.length?`<div class="tablewrap"><table><thead><tr>${head.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table></div>`:'<div class="empty">Belum ada data.</div>'}
+function status(x){return x.due<today()?'<span class="badge red">Terlambat</span>':'<span class="badge">Dipinjam</span>'}
 function render(){
- $("total").textContent=barang.length;
- $("aktif").textContent=pinjaman.filter(p=>p.aktif).length;
-
- $("daftarBarang").innerHTML=barang.map(b=>`
- <div class="item">
- <b>${safe(b.nama)}</b>
- <p class="muted">${safe(b.kode)} · Tersedia ${stok(b)} dari ${b.jumlah}</p>
- <div class="qrwrap">
- <div class="qrbox"><div id="qr-${encodeURIComponent(b.kode)}"></div><small>${safe(b.kode)}</small></div>
- <div><button class="secondary noprint" onclick="cetakQR('${encodeURIComponent(b.kode)}')">Cetak QR</button>
- <button class="danger noprint" onclick="hapus('${encodeURIComponent(b.kode)}')">Hapus</button>
- <p class="muted">QR berisi kode dan nama aset.</p></div>
- </div></div>`).join("")||'<p class="muted">Belum ada barang.</p>';
-
- barang.forEach(b=>{
-  const el=$("qr-"+encodeURIComponent(b.kode));
-  if(!el)return;
-  el.innerHTML="";
-  if(window.QRCode){
-   new QRCode(el,{text:JSON.stringify({app:"KLIKRA-SARPRAS",kode:b.kode,nama:b.nama}),width:140,height:140});
-  }else{
-   el.textContent="QR belum tersedia. Periksa koneksi internet.";
-  }
- });
-
- $("pilihan").innerHTML='<option value="">Pilih barang</option>'+barang.filter(b=>stok(b)>0).map(b=>`<option value="${safe(b.kode)}">${safe(b.kode)} — ${safe(b.nama)} (tersedia ${stok(b)})</option>`).join("");
-
- const active=pinjaman.filter(p=>p.aktif);
- $("daftarPinjam").innerHTML=active.map(p=>`
- <div class="item"><b>${safe(p.peminjam)}</b> · ${safe(p.nama)} (${p.banyak} unit)
- <p class="muted">Kode ${safe(p.kode)} · Batas: ${safe(p.tempo)}</p>
- <button onclick="kembalikan('${p.id}')">Konfirmasi kembali</button></div>`).join("")||'<p class="muted">Tidak ada peminjaman aktif.</p>';
-
- $("daftarKembali").innerHTML=active.map(p=>`
- <div class="item"><b>${safe(p.nama)}</b>
- <p>${safe(p.peminjam)} · ${p.banyak} unit</p>
- <button onclick="kembalikan('${p.id}')">Kembalikan</button></div>`).join("")||'<p class="muted">Tidak ada barang yang perlu dikembalikan.</p>';
+$("mjenis").textContent=items.length;
+$("mstok").textContent=items.reduce((n,x)=>n+available(x),0);
+$("mpinjam").textContent=loans.filter(x=>x.status==="aktif").reduce((n,x)=>n+x.qty,0);
+$("maktif").textContent=loans.filter(x=>x.status==="aktif").length;
+const a=loans.filter(x=>x.status==="aktif").slice().reverse();
+$("dashlist").innerHTML=table(["Peminjam","Barang","Jumlah","Kembali"],a.slice(0,5).map(x=>`<tr><td>${esc(x.person)}</td><td>${esc(item(x.itemId)?.name||"Barang")}</td><td>${x.qty}</td><td>${date(x.due)}<br>${status(x)}</td></tr>`));
+const q=$("cari").value.toLowerCase().trim();
+const found=items.filter(x=>(x.code+" "+x.name+" "+x.location+" "+x.category).toLowerCase().includes(q));
+$("itemlist").innerHTML=table(["Kode / barang","Lokasi","Stok","Aksi"],found.map(x=>`<tr><td><strong>${esc(x.code)}</strong><br>${esc(x.name)}<br><small>${esc(x.category||"")}</small></td><td>${esc(x.location||"—")}</td><td>${available(x)} / ${x.qty}</td><td><div class="actions"><button data-act="qr" data-id="${x.id}">QR</button><button data-act="edit" data-id="${x.id}">Edit</button><button class="danger" data-act="del" data-id="${x.id}">Hapus</button></div></td></tr>`));
+const sel=$("pilih"),old=sel.value;
+sel.innerHTML='<option value="">Pilih barang...</option>'+items.map(x=>`<option value="${x.id}">${esc(x.code)} — ${esc(x.name)} (tersedia ${available(x)})</option>`).join("");
+if(items.some(x=>x.id===old))sel.value=old;
+$("loanlist").innerHTML=table(["Peminjam / barang","Jumlah","Tanggal","Kembali"],a.map(x=>`<tr><td><strong>${esc(x.person)}</strong><br>${esc(item(x.itemId)?.name||"Barang")}</td><td>${x.qty}</td><td>${date(x.date)}</td><td>${date(x.due)}<br>${status(x)}</td></tr>`));
+$("returnlist").innerHTML=table(["Peminjam / barang","Jumlah","Batas kembali","Aksi"],a.map(x=>`<tr><td>${esc(x.person)}<br>${esc(item(x.itemId)?.name||"Barang")}</td><td>${x.qty}</td><td>${date(x.due)}</td><td><button class="primary" data-act="return" data-id="${x.id}">Kembalikan</button></td></tr>`));
+$("historylist").innerHTML=table(["Peminjam","Barang","Jumlah","Tanggal kembali"],history.slice().reverse().slice(0,50).map(x=>`<tr><td>${esc(x.person)}</td><td>${esc(x.name)}</td><td>${x.qty}</td><td>${date(x.date)}</td></tr>`));
 }
-
-$("formBarang").addEventListener("submit",e=>{
- e.preventDefault();
- const kode=$("kode").value.trim().toUpperCase();
- const nama=$("nama").value.trim();
- const jumlah=Number($("jumlah").value);
- if(!kode||!nama||!Number.isInteger(jumlah)||jumlah<1)return alert("Periksa data barang.");
- if(barang.some(b=>b.kode===kode))return alert("Kode barang sudah ada. Gunakan kode unik.");
- barang.push({kode,nama,jumlah});
- if(save()){
-  e.target.reset();$("jumlah").value=1;render();
-  alert("Barang berhasil disimpan.");
- }
+function page(p){["dashboard","barang","pinjam","kembali"].forEach(x=>$(x).classList.toggle("hidden",x!==p));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));window.scrollTo(0,0)}
+$("nav").addEventListener("click",e=>{let b=e.target.closest("[data-page]");if(b)page(b.dataset.page)});
+$("itemform").addEventListener("submit",e=>{
+e.preventDefault();
+let id=$("editid").value,code=$("kode").value.trim(),name=$("nama").value.trim(),qty=Number($("jumlah").value);
+if(!code||!name||!Number.isInteger(qty)||qty<0)return msg("Periksa kode, nama, dan jumlah.");
+if(items.some(x=>x.code.toLowerCase()===code.toLowerCase()&&x.id!==id))return msg("Kode barang sudah dipakai.");
+if(id){let x=item(id);if(!x)return;if(qty<active(id))return msg("Jumlah tidak boleh kurang dari unit dipinjam.");Object.assign(x,{code,name,qty,category:$("kategori").value.trim(),location:$("lokasi").value.trim()})}
+else items.push({id:uid(),code,name,qty,category:$("kategori").value.trim(),location:$("lokasi").value.trim()});
+if(!save())return;
+reset();render();msg(id?"Barang diperbarui.":"Barang disimpan.");
 });
-
-$("formPinjam").addEventListener("submit",e=>{
- e.preventDefault();
- const kode=$("pilihan").value;
- const b=barang.find(x=>x.kode===kode);
- const banyak=Number($("banyak").value);
- const peminjam=$("peminjam").value.trim();
- const tempo=$("tempo").value;
- if(!b||!peminjam||!tempo||!Number.isInteger(banyak)||banyak<1)return alert("Periksa data peminjaman.");
- if(banyak>stok(b))return alert("Stok tidak mencukupi.");
- pinjaman.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),kode,nama:b.nama,banyak,peminjam,tempo,aktif:true,tanggal:new Date().toISOString()});
- if(save()){
-  e.target.reset();$("banyak").value=1;render();
-  alert("Peminjaman tercatat.");
- }
+function reset(){$("itemform").reset();$("editid").value="";$("jumlah").value=1;$("formtitle").textContent="Tambah barang";$("saveitem").textContent="Simpan barang";$("cancelEdit").classList.add("hidden")}
+$("cancelEdit").onclick=reset;
+$("cari").addEventListener("input",render);
+$("loanform").addEventListener("submit",e=>{
+e.preventDefault();
+let x=item($("pilih").value),person=$("peminjam").value.trim(),qty=Number($("banyak").value),date1=$("tglpinjam").value,due=$("tglkembali").value;
+if(!x||!person||!Number.isInteger(qty)||qty<1)return msg("Lengkapi data peminjaman.");
+if(!date1||!due||due<date1)return msg("Tanggal kembali harus sama atau setelah tanggal pinjam.");
+if(qty>available(x))return msg("Stok tidak mencukupi.");
+loans.push({id:uid(),itemId:x.id,person,qty,date:date1,due,note:$("catatan").value.trim(),status:"aktif"});
+if(!save())return;
+$("peminjam").value="";$("banyak").value=1;$("catatan").value="";render();msg("Peminjaman dicatat.");
 });
-
-function kembalikan(id){
- const p=pinjaman.find(x=>x.id===id);
- if(!p||!p.aktif)return alert("Transaksi sudah dikembalikan atau tidak ditemukan.");
- if(!confirm("Konfirmasi barang telah dikembalikan?"))return;
- p.aktif=false;p.tanggalKembali=new Date().toISOString();
- if(save()){render();alert("Pengembalian berhasil dicatat.");}
+$("tglpinjam").value=today();$("tglkembali").value=today();
+$("tglpinjam").addEventListener("change",()=>{if($("tglkembali").value<$("tglpinjam").value)$("tglkembali").value=$("tglpinjam").value});
+$("main").addEventListener("click",e=>{
+let b=e.target.closest("[data-act]");if(!b)return;
+let x=item(b.dataset.id),id=b.dataset.id;
+if(b.dataset.act==="edit"&&x){$("editid").value=x.id;$("kode").value=x.code;$("nama").value=x.name;$("jumlah").value=x.qty;$("kategori").value=x.category||"";$("lokasi").value=x.location||"";$("formtitle").textContent="Edit barang";$("saveitem").textContent="Simpan perubahan";$("cancelEdit").classList.remove("hidden");page("barang");$("itemform").scrollIntoView()}
+if(b.dataset.act==="del"&&x){if(active(id))return msg("Barang masih dipinjam.");if(confirm("Hapus "+x.name+"?")){items=items.filter(y=>y.id!==id);if(save()){render();msg("Barang dihapus.")}}}
+if(b.dataset.act==="return"){let l=loans.find(y=>y.id===id&&y.status==="aktif");if(!l)return;if(confirm("Konfirmasi pengembalian dari "+l.person+"?")){l.status="selesai";history.push({id:uid(),person:l.person,name:item(l.itemId)?.name||"Barang",qty:l.qty,date:today()});if(save()){render();msg("Pengembalian dicatat.")}}}
+if(b.dataset.act==="qr"&&x){
+const area=$("printarea");area.classList.remove("hidden");
+area.innerHTML=`<div class="panel"><h2>QR IDENTITAS ASET</h2><h3>${esc(x.name)}</h3><p>Kode: ${esc(x.code)}</p><div id="qrbox" style="display:flex;justify-content:center;padding:15px"></div><p>Lokasi: ${esc(x.location||"—")}</p><button onclick="window.print()">Cetak QR</button> <button onclick="document.getElementById('printarea').classList.add('hidden')">Tutup</button></div>`;
+if(typeof QRCode==="undefined"){$("qrbox").textContent="QR belum termuat. Periksa koneksi internet.";return}
+new QRCode($("qrbox"),{text:JSON.stringify({app:"KLIKRA SARPRAS ADMIN",code:x.code,name:x.name}),width:180,height:180,colorDark:"#183D78",colorLight:"#FFFFFF"});
 }
-function hapus(k){
- const kode=decodeURIComponent(k);
- if(pinjaman.some(p=>p.kode===kode&&p.aktif))return alert("Barang masih dipinjam. Penghapusan ditolak.");
- if(confirm("Hapus aset "+kode+"?")){
-  barang=barang.filter(b=>b.kode!==kode);
-  if(save())render();
- }
-}
-function cetakQR(k){
- const kode=decodeURIComponent(k),b=barang.find(x=>x.kode===kode);
- if(!b)return;
- const w=window.open("","_blank","width=400,height=500");
- if(!w)return alert("Izinkan pop-up untuk mencetak QR.");
- w.document.write('<!doctype html><html><head><title>QR aset</title><style>body{font-family:Arial;text-align:center;padding:24px}</style></head><body><h2>KLIKRA SARPRAS</h2><h3>'+safe(b.nama)+'</h3><p>'+safe(b.kode)+'</p><div id="q"></div><p>Identitas aset</p><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script><script>new QRCode(document.getElementById("q"),{text:'+JSON.stringify(JSON.stringify({app:"KLIKRA-SARPRAS",kode:b.kode,nama:b.nama}))+',width:200,height:200});setTimeout(()=>window.print(),700)<\/script></body></html>');
- w.document.close();
-}
-render();
+});
+const script=document.createElement("script");
+script.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
+document.head.appendChild(script);
+load();render();
+})();
 </script>
 </body>
-</html>
+ </html>
+
