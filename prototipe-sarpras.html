@@ -1,0 +1,120 @@
+
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KLIKRA SARPRAS SMART SCAN</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f5ef;color:#1a1a1a;font:16px Arial,sans-serif}
+header{background:#0b3d2e;color:white;padding:22px}
+main{max-width:700px;margin:auto;padding:16px}
+.card{background:white;padding:16px;margin:12px 0;border-radius:14px}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+button{padding:11px;border:0;border-radius:8px;background:#0b3d2e;color:white}
+nav button{flex:1;background:white;color:#0b3d2e;border:1px solid #ccc}
+input,select{display:block;width:100%;padding:12px;margin:7px 0 14px;border:1px solid #bbb;border-radius:8px}
+label{font-weight:bold}
+small{color:#687290}
+[hidden]{display:none!important}
+.item{padding:12px 0;border-bottom:1px solid #ddd}
+</style>
+</head>
+<body>
+<header>
+<small style="color:#dce9d9">KLIKRA DIGITAL</small>
+<h2>SARPRAS SMART SCAN</h2>
+Inventaris · Peminjaman · Pengembalian
+</header>
+<main>
+<div class="card"><b>PROTOTIPE 001</b><p><small>Gunakan data dummy. Data tersimpan lokal di browser jika tersedia, bukan di server sekolah.</small></p></div>
+<nav>
+<button onclick="page('home')">Ringkasan</button>
+<button onclick="page('barang')">Barang</button>
+<button onclick="page('pinjam')">Peminjaman</button>
+<button onclick="page('kembali')">Pengembalian</button>
+</nav>
+<section id="home" class="card">
+<h3>Ringkasan</h3>
+<p>Jenis barang: <b id="total">0</b></p>
+<p>Peminjaman aktif: <b id="aktif">0</b></p>
+<button onclick="page('barang')">+ Tambah barang</button>
+</section>
+<section id="barang" class="card" hidden>
+<h3>Tambah barang</h3>
+<form id="formBarang">
+<label>Kode barang</label><input id="kode" required placeholder="LAB-001">
+<label>Nama barang</label><input id="nama" required placeholder="Proyektor">
+<label>Jumlah</label><input id="jumlah" type="number" min="1" value="1" required>
+<button>Simpan barang</button>
+</form>
+<h3>Daftar barang</h3><div id="daftarBarang"></div>
+</section>
+<section id="pinjam" class="card" hidden>
+<h3>Catat peminjaman</h3>
+<form id="formPinjam">
+<label>Nama peminjam</label><input id="peminjam" required>
+<label>Barang</label><select id="pilihan" required></select>
+<label>Jumlah</label><input id="banyak" type="number" min="1" value="1" required>
+<label>Tanggal kembali</label><input id="tempo" type="date" required>
+<button>Catat peminjaman</button>
+</form>
+<h3>Peminjaman aktif</h3><div id="daftarPinjam"></div>
+</section>
+<section id="kembali" class="card" hidden>
+<h3>Pengembalian</h3><div id="daftarKembali"></div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let barang=[],pinjaman=[];
+try{
+barang=JSON.parse(localStorage.getItem('ks_barang')||'[]');
+pinjaman=JSON.parse(localStorage.getItem('ks_pinjam')||'[]');
+}catch(e){barang=[];pinjaman=[]}
+function simpan(){
+try{
+localStorage.setItem('ks_barang',JSON.stringify(barang));
+localStorage.setItem('ks_pinjam',JSON.stringify(pinjaman));
+}catch(e){alert('Penyimpanan browser gagal. Data mungkin tidak bertahan.')}
+}
+function aman(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function page(id){
+['home','barang','pinjam','kembali'].forEach(x=>$(x).hidden=x!==id);
+}
+function stok(b){return b.jumlah-pinjaman.filter(p=>p.kode===b.kode&&p.aktif).reduce((n,p)=>n+p.banyak,0)}
+function render(){
+$('total').textContent=barang.length;
+$('aktif').textContent=pinjaman.filter(p=>p.aktif).length;
+$('daftarBarang').innerHTML=barang.map(b=>`<div class="item"><b>${aman(b.nama)}</b><br><small>${aman(b.kode)} · Tersedia ${stok(b)} dari ${b.jumlah}</small> <button onclick="hapus('${b.kode}')">Hapus</button></div>`).join('')||'Belum ada barang.';
+$('pilihan').innerHTML='<option value="">Pilih barang</option>'+barang.filter(b=>stok(b)>0).map(b=>`<option value="${aman(b.kode)}">${aman(b.kode)} — ${aman(b.nama)} (${stok(b)})</option>`).join('');
+$('daftarPinjam').innerHTML=pinjaman.filter(p=>p.aktif).map(p=>`<div class="item">${aman(p.peminjam)} · ${aman(p.nama)} (${p.banyak})<br><small>Batas: ${aman(p.tempo)}</small></div>`).join('')||'Belum ada peminjaman.';
+$('daftarKembali').innerHTML=pinjaman.filter(p=>p.aktif).map(p=>`<div class="item">${aman(p.peminjam)} · ${aman(p.nama)} (${p.banyak}) <button onclick="kembali('${p.id}')">Kembalikan</button></div>`).join('')||'Tidak ada barang yang perlu dikembalikan.';
+}
+$('formBarang').onsubmit=e=>{
+e.preventDefault();
+let kode=$('kode').value.trim().toUpperCase(),nama=$('nama').value.trim(),jumlah=Number($('jumlah').value);
+if(barang.some(b=>b.kode===kode))return alert('Kode sudah dipakai.');
+barang.push({kode,nama,jumlah});simpan();e.target.reset();$('jumlah').value=1;render();alert('Barang ditambahkan.');
+};
+$('formPinjam').onsubmit=e=>{
+e.preventDefault();
+let b=barang.find(b=>b.kode===$('pilihan').value),banyak=Number($('banyak').value),peminjam=$('peminjam').value.trim(),tempo=$('tempo').value;
+if(!b||!peminjam||!tempo||banyak<1||banyak>stok(b))return alert('Periksa isian dan stok barang.');
+pinjaman.push({id:Date.now().toString()+Math.random(),kode:b.kode,nama:b.nama,peminjam,banyak,tempo,aktif:true});
+simpan();e.target.reset();render();alert('Peminjaman dicatat.');
+};
+function hapus(kode){
+if(pinjaman.some(p=>p.kode===kode&&p.aktif))return alert('Barang masih dipinjam.');
+if(confirm('Hapus barang ini?')){barang=barang.filter(b=>b.kode!==kode);simpan();render()}
+}
+function kembali(id){
+let p=pinjaman.find(p=>p.id===id);
+if(p&&confirm('Konfirmasi barang telah dikembalikan?')){p.aktif=false;simpan();render()}
+}
+render();
+</script>
+</body>
+  </html>
+  
