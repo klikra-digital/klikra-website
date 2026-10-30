@@ -1,5 +1,5 @@
 const CACHE_NAME = 'sarpras-admin-002-pwa-v1';
-const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icons/admin-192.png', './icons/admin-512.png', './icons/admin-180.png', './icons/scan-192.png', './icons/scan-512.png'];
+const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './admin-192.png', './admin-512.png', './admin-180.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
 });
