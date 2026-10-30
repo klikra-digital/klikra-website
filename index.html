@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#24579a">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="./icons/admin-192.png">
-<link rel="apple-touch-icon" href="./icons/admin-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./admin-192.png">
+<link rel="apple-touch-icon" href="./admin-180.png">
 <title>NI SCHOOL APP — SARPRAS ADMIN 002</title>
 <style>
 :root{--green:#174a91;--lime:#e9b93f;--cream:#f3f5fa;--paper:#fff;--ink:#202b3b;--muted:#5d6d83;--line:#e0e6f0;--warn:#fff7dc;--red:#9b3025;--radius:18px}
@@ -251,4 +251,13 @@ window.testStorage=()=>{try{const key='__klikra_storage_test__',value=cryptoId()
  load();render();
 })();
 </script>
-</body></html>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(error => console.warn('PWA service worker:', error));
+  });
+}
+</script>
+</body>
+</html>
