@@ -10,6 +10,7 @@ const APP_FILES = [
   "icon-512-maskable.svg"
 ];
 const APP_URLS = APP_FILES.map(path => new URL(path, self.registration.scope).href);
+const INDEX_URL = new URL("index.html", self.registration.scope).href;
 
 self.addEventListener("install", event => {
   event.waitUntil(
@@ -38,17 +39,18 @@ self.addEventListener("fetch", event => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request).then(response => {
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(request);
         if (response && response.ok) {
-          const copy = response.clone();
-          event.waitUntil(caches.open(CACHE_NAME).then(cache =>
-            cache.put(new URL("index.html", self.registration.scope).href, copy)
-          ));
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(INDEX_URL, response.clone());
         }
         return response;
-      }).catch(() => caches.match(new URL("index.html", self.registration.scope).href))
-    );
+      } catch {
+        return await caches.match(INDEX_URL);
+      }
+    })());
     return;
   }
 
