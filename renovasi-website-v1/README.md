@@ -17,14 +17,14 @@ This directory contains an isolated visual renovation prototype for the KLIKRA w
 - KLIKRA identity anchors: `#0B3D2E`, `#A7E22E`, `#F9F6EA`
 
 ## V1 scope
-Responsive single-page concept with desktop/mobile layouts, navigation anchors, learning journey section, eBook cards, and KLIKRA profile section.
+Responsive single-page concept with a desktop left sidebar, compact top utility bar, mobile header/dropdown navigation, KLIKRA Tower exhibition teaser on the homepage, learning journey section, eBook cards, and profile section. Header/sidebar use a compact vector logo mark in the KLIKRA green palette; homepage feature cards use a consistent inline-SVG line-icon system.
 
 ## Audit still required
-1. Compare against the approved reference mockup.
+1. Compare spacing, hero composition, sidebar, and card hierarchy against the approved reference mockup.
 2. Test mobile menu behavior and all navigation anchors.
 3. Verify typography and color contrast.
 4. Test on actual Android/iOS and desktop browsers.
-5. Replace illustrative placeholder art/covers with approved KLIKRA assets.
+5. Replace the simplified vector logo mark and illustrative hero/eBook placeholders with final approved KLIKRA assets where available.
 6. Review accessibility, performance, and content accuracy before production integration.
 
 No production files are changed by this prototype.
